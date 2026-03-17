@@ -178,10 +178,9 @@
         */
       const makeItClickable = function () {
         let h1 = document.querySelector("h1");
-        h1.addEventListener(
-          "click",
-          (h1) => (h1.innerText = h1.innerText.slice(0, -1)),
-        );
+        h1.addEventListener("click", function () {
+          h1.innerText = h1.innerText.slice(0, -1);
+        });
       };
       makeItClickable();
 

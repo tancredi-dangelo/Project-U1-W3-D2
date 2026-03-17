@@ -125,7 +125,6 @@
       /* ESERCIZIO 4
          Scrivi una funzione che cambi la proprietà href di ogni link (tranne quello nel footer) con il valore https://www.google.com
         */
-
       const changeUrls = function () {
         let anchor = document.querySelector("a:not(footer a)");
         anchor.setAttribute("href", "https://www.google.com");
@@ -200,11 +199,11 @@
          Crea una funzione che crei una tabella nell'elemento con id "tableArea".
          La tabella avrà 5 elementi e questa struttura: immagine, nome prodotto, quantità, prezzo
       */
-      const generateTable = function (a, b, c, d) {
+      const generateTable = function (...args) {
         let tableDiv = document.getElementById("tableArea");
         let table = document.createElement("table");
         let tableRow = document.createElement("tr");
-        [a, b, c, d].forEach((data) => {
+        [...args].forEach((data) => {
           let header = document.createElement("th");
           header.innerText = data;
           tableRow.appendChild(header);
@@ -217,18 +216,43 @@
       /* ESERCIZIO 12
          Crea una funzione che aggiunga una riga alla tabella precedentemente creata e fornisca i dati necessari come parametri
       */
-      const addRow = function () {
+      const addRow = function (...args) {
         let table = document.querySelector("table");
         let tableRow = document.createElement("tr");
-        tableRow.innerHTML = `<td>
-              <img src="https://placecats.com/300/200" alt="cat" />
-            </td>
-            <td>Gatto</td>
-            <td>3</td>
-            <td>100000000$</td>`;
+        [...args].forEach((arg) => {
+          if (arg.includes("http")) {
+            let image = document.createElement("img");
+            image.setAttribute("src", arg);
+            image.setAttribute("alt", [...args][1]);
+            image.setAttribute("style", "width: 300px; height: 200px");
+            let td = document.createElement("td");
+            td.appendChild(image);
+            tableRow.appendChild(td);
+          } else {
+            let td = document.createElement("td");
+            td.innerText = arg;
+            tableRow.appendChild(td);
+          }
+        });
         table.appendChild(tableRow);
       };
-      addRow();
+
+      addRow("https://placecats.com/300/200", "gatto", "3", "1000000 $");
+      addRow("https://placedog.net/500/280", "cane", "2", "30000 $");
+      addRow("https://placebear.com/200/300", "orso", "1", "80000 $");
+      addRow(
+        "https://images.pexels.com/photos/86405/penguin-funny-blue-water-86405.jpeg",
+        "pinguino",
+        "3",
+        "15000 $",
+      );
+      addRow(
+        "https://images.pexels.com/photos/1829979/pexels-photo-1829979.jpeg",
+        "scimmia",
+        "7",
+        "190000 $",
+      );
+
       /* ESERCIZIO 14
         Crea una funzione che nasconda le immagini della tabella quando eseguita
       */
